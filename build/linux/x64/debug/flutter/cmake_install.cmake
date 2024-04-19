@@ -1,8 +1,8 @@
-# Install script for directory: /home/super/rosco_proyecto/flutter/App-Desktop-Flutter/linux/flutter
+# Install script for directory: /home/super/rosco_proyecto/repos_proyecto/DESKTOP/linux/flutter
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/super/rosco_proyecto/flutter/App-Desktop-Flutter/build/linux/x64/debug/bundle")
+  set(CMAKE_INSTALL_PREFIX "/home/super/rosco_proyecto/repos_proyecto/DESKTOP/build/linux/x64/debug/bundle")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

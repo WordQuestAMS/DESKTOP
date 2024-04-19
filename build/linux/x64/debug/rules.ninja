@@ -80,7 +80,7 @@ rule CXX_SHARED_LIBRARY_LINKER__window_manager_plugin
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /snap/flutter/145/usr/bin/cmake -S/home/super/rosco_proyecto/flutter/App-Desktop-Flutter/linux -B/home/super/rosco_proyecto/flutter/App-Desktop-Flutter/build/linux/x64/debug
+  command = /snap/flutter/145/usr/bin/cmake -S/home/super/rosco_proyecto/repos_proyecto/DESKTOP/linux -B/home/super/rosco_proyecto/repos_proyecto/DESKTOP/build/linux/x64/debug
   description = Re-running CMake...
   generator = 1
 

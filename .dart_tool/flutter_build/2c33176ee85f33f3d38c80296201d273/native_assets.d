@@ -1,0 +1,1 @@
+ /home/super/rosco_proyecto/repos_proyecto/DESKTOP/.dart_tool/flutter_build/2c33176ee85f33f3d38c80296201d273/native_assets.yaml: 
