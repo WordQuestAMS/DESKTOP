@@ -1,20 +1,21 @@
 import 'dart:convert';
+import 'package:descktop/app_data.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Diccionario extends StatefulWidget {
+  final List<Map<String, String>> initialPalabras;
+
+  Diccionario({Key? key, required this.initialPalabras}) : super(key: key);
   @override
   _DiccionarioState createState() => _DiccionarioState();
 }
 
 class _DiccionarioState extends State<Diccionario> {
-  String idiomaSeleccionado = 'Todos';
-  List<Map<String, String>> palabras = [
-    {"id": "1", "palabra": "house", "idioma": "inglés", "uso": "casa"},
-    {"id": "2", "palabra": "car", "idioma": "inglés", "uso": "coche"},
-    {"id": "3", "palabra": "tree", "idioma": "inglés", "uso": "árbol"},
-    {"id": "4", "palabra": "cat", "idioma": "inglés", "uso": "gato"}
-  ];
-  int currentPage = 0;
+  String idiomaSeleccionado = 'Catalán';
+  List<Map<String, String>> palabras = [];
+
+  int currentPage = 1;
   bool isLoading = false;
 
   // Método para modificar el JSON de palabras
@@ -29,6 +30,8 @@ class _DiccionarioState extends State<Diccionario> {
 
   @override
   Widget build(BuildContext context) {
+    final appData = Provider.of<AppData>(context, listen: false);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Diccionario'),
@@ -49,7 +52,7 @@ class _DiccionarioState extends State<Diccionario> {
                 },
                 items: <String>[
                   'Todos',
-                  'Catalan',
+                  'Catalán',
                   'Español',
                 ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
@@ -93,10 +96,9 @@ class _DiccionarioState extends State<Diccionario> {
                             title: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('ID: ${palabras[index]['id']}'),
                                 Text('Palabra: ${palabras[index]['palabra']}'),
                                 Text('Idioma: ${palabras[index]['idioma']}'),
-                                Text('Usos: ${palabras[index]['uso']}'),
+                                Text('Uso: ${palabras[index]['uso']}'),
                               ],
                             ),
                             onTap: () {
@@ -114,56 +116,46 @@ class _DiccionarioState extends State<Diccionario> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
-                    onPressed: () {
-                      if (currentPage > 0) {
+                    onPressed: () async {
+                      setState(() => currentPage--);
+                      try {
                         setState(() {
-                          currentPage--;
-                          String jsonString;
-
-                          // Selecciona el JSON de palabras según la página
-
-                          jsonString = '''
-      [
-        
-  {"id": "1", "palabra": "cristian", "idioma": "inglés", "uso": "casa"},
-  {"id": "2", "palabra": "cristian", "idioma": "inglés", "uso": "coche"},
-  {"id": "3", "palabra": "cristian", "idioma": "inglés", "uso": "árbol"},
-  {"id": "4", "palabra": "cristian", "idioma": "inglés", "uso": "gato"}
-
-
-      ]
-      ''';
-
-                          modificarJsonPalabras(jsonString);
+                          isLoading = true;
                         });
+                        String? jsonString2 = await appData.recibirDiccionario(
+                            "a", currentPage, idiomaSeleccionado);
+
+                        if (jsonString2 != null) {
+                          modificarJsonPalabras(jsonString2);
+                        } else {
+                          print("No se recibieron datos del servidor.");
+                        }
+                      } catch (e) {
+                        print("Error al cargar datos: $e");
                       }
                     },
                     icon: Icon(Icons.arrow_back),
                   ),
-                  Text('Página ${currentPage + 1}'),
+                  Text('Página $currentPage'),
                   IconButton(
-                    onPressed: () {
-                      if (currentPage < 4) {
+                    onPressed: () async {
+                      setState(() {
+                        currentPage++;
+                      });
+                      try {
                         setState(() {
-                          currentPage++;
-                          String jsonString;
-
-                          // Selecciona el JSON de palabras según la página
-
-                          jsonString = '''
-      [
-        
-  {"id": "1", "palabra": "SUSI", "idioma": "inglés", "uso": "casa"},
-  {"id": "2", "palabra": "SUSI", "idioma": "inglés", "uso": "coche"},
-  {"id": "3", "palabra": "SUSI", "idioma": "inglés", "uso": "árbol"},
-  {"id": "4", "palabra": "SUSI", "idioma": "inglés", "uso": "gato"}
-
-
-      ]
-      ''';
-
-                          modificarJsonPalabras(jsonString);
+                          isLoading = true;
                         });
+                        String? jsonString2 = await appData.recibirDiccionario(
+                            "a", currentPage, idiomaSeleccionado);
+
+                        if (jsonString2 != null) {
+                          modificarJsonPalabras(jsonString2);
+                        } else {
+                          print("No se recibieron datos del servidor.");
+                        }
+                      } catch (e) {
+                        print("Error al cargar datos: $e");
                       }
                     },
                     icon: Icon(Icons.arrow_forward),
@@ -187,7 +179,6 @@ class _DiccionarioState extends State<Diccionario> {
     setState(() {
       isLoading = true;
     });
-    print(jsonString);
 
     // Simulamos una carga de datos
     await Future.delayed(Duration(seconds: 2));
@@ -210,8 +201,10 @@ class _DiccionarioState extends State<Diccionario> {
   @override
   void initState() {
     super.initState();
-
-    cargarDatos(devolverJsonPalabras(),
-        currentPage); // Carga los datos de la página inicial al iniciar
+    // Inicializa con la lista pasada al widget
+    palabras = widget.initialPalabras;
+    print(palabras);
+    // Carga los datos de la página inicial al iniciar
+    cargarDatos(devolverJsonPalabras(), currentPage);
   }
 }
