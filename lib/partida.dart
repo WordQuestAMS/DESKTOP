@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Partida extends StatefulWidget {
   @override
@@ -7,34 +8,36 @@ class Partida extends StatefulWidget {
 }
 
 class _PartidaState extends State<Partida> {
-  late List<dynamic> jugadores;
+  late IO.Socket socket;
+  List<dynamic> jugadores = [];
 
   @override
   void initState() {
     super.initState();
-    loadData();
+    createSocketConnection();
   }
 
-  void loadData() {
-    String jsonData = '''
-    {
-      "jugadores": [
-        {
-          "nombre": "Alice",
-          "puntos": 15,
-          "palabras": ["casa", "perro", "árbol"]
-        },
-        {
-          "nombre": "Bob",
-          "puntos": 20,
-          "palabras": ["libro", "gato", "cielo"]
-        }
-      ]
-    }
-    ''';
-    setState(() {
-      jugadores = jsonDecode(jsonData)['jugadores'];
+  void createSocketConnection() {
+    socket = IO.io('https://roscodrom-docents.ieti.site', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
     });
+
+    socket.onConnect((_) {
+      print('Connected');
+    });
+
+    socket.onDisconnect((_) {
+      print('Disconnected');
+    });
+
+    socket.on('jugadores', (data) {
+      setState(() {
+        jugadores = data;
+      });
+    });
+
+    socket.connect();
   }
 
   @override
@@ -64,27 +67,17 @@ class _PartidaState extends State<Partida> {
                         color: Colors.blueGrey),
                   ),
                 ),
-                Container(
-                  height:
-                      100, // altura fija para el área de desplazamiento de las palabras
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: jugador['palabras'].map<Widget>((palabra) {
-                      return Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Chip(
-                          label: Text(palabra),
-                          backgroundColor: Colors.lightBlue.shade100,
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
               ],
             ),
           );
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    socket.disconnect();
+    super.dispose();
   }
 }

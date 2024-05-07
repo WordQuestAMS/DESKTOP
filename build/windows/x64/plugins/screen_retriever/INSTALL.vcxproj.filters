@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\AMS2\Projects\Project 3 - Roscodrom\DESKTOP\build\windows\x64\CMakeFiles\617adf3be08f28ca3e879b2c25b8b51e\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{B9A200C5-13D8-315B-87AE-299BBDE1E224}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

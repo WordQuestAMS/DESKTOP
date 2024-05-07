@@ -1,0 +1,1 @@
+ D:\\AMS2\\Projects\\Project\ 3\ -\ Roscodrom\\DESKTOP\\.dart_tool\\flutter_build\\45b59b9bb2a67505e5efc5adc734bfa4\\native_assets.yaml: 

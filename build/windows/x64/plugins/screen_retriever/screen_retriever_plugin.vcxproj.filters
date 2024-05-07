@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\AMS2\Projects\Project 3 - Roscodrom\DESKTOP\windows\flutter\ephemeral\.plugin_symlinks\screen_retriever\windows\screen_retriever_plugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\AMS2\Projects\Project 3 - Roscodrom\DESKTOP\windows\flutter\ephemeral\.plugin_symlinks\screen_retriever\windows\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{E5DBDD8D-F6DA-37A2-9CEC-953B9766623C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
